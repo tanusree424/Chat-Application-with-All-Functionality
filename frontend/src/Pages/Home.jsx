@@ -79,7 +79,7 @@ const Home = () => {
     .catch((err) => {
       console.log("Profile fetch error:", err);
     });
-}, []);
+}, [Profile]);
 
 
   /* 🟢 online users */
@@ -204,6 +204,10 @@ const Home = () => {
     );
   };
 const logout = async () => {
+  const ok = window.confirm("Are you sure you want to logout?");
+
+  if (!ok) return;
+
   try {
     await Api.get("/api/logout", {
       headers: {
@@ -223,6 +227,7 @@ const logout = async () => {
     console.log("Logout error:", error);
   }
 };
+
   /* ===================== TYPING LISTENER ===================== */
   useEffect(() => {
     if (!authUser?.id) return;
@@ -276,7 +281,7 @@ const logout = async () => {
                 ? `http://localhost:8000/storage/${Profile?.profile?.avatar}`
                 : userImg
             }
-            className="w-10 h-10 rounded-full cursor-pointer"
+            className="w-10 h-10 rounded-full cursor-pointer object-cover"
             onClick={() => setOpenProfileModal(true)}
           />
           <p className="text-white text-xl">
