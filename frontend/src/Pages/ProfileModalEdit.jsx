@@ -6,23 +6,25 @@ import notificationTone from  "../assets/notification.mp3";
 const ProfileModalEdit = ({ user, profile, closeModal }) => {
   const [animate, setAnimate] = useState(false);
 
-  const [name, setName] = useState(user?.name || "");
-  const [bio, setBio] = useState(profile?.bio || "");
+  const [name, setName] = useState(profile?.name || "");
+  const [bio, setBio] = useState(profile?.profile?.bio || "");
 
   const [avatar, setAvatar] = useState(null);
   const [cover, setCover] = useState(null);
   const notificationSound  = new Audio(notificationTone);
   notificationSound.volume = 1;
+  console.log(profile?.name)
+  console.log(profile?.profile?.avatar)
 
   const [avatarPreview, setAvatarPreview] = useState(
-    profile?.avatar
-      ? `http://localhost:8000/storage/${profile.avatar}`
+    profile?.profile?.avatar
+      ? `http://localhost:8000/storage/${profile?.profile?.avatar}`
       : userImg
   );
 
   const [coverPreview, setCoverPreview] = useState(
-    profile?.cover_photo
-      ? `http://localhost:8000/storage/${profile.cover_photo}`
+    profile?.profile?.cover_photo
+      ? `http://localhost:8000/storage/${profile?.profile?.cover_photo}`
       : null
   );
 

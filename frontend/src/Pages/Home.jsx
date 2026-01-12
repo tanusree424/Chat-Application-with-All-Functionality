@@ -25,6 +25,7 @@ const Home = () => {
       
         const [userTypingId, setUserTypingId] = useState(null);
           const typingTimeout = useRef(null);
+    // console.log(Profile.user)
 
   /* 🔔 notification sound setup */
   useEffect(() => {
@@ -66,12 +67,20 @@ const Home = () => {
 
   /* 👤 auth profile */
   useEffect(() => {
-    Api.get("/api/me", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }).then((res) => setProfile(res.data.user?.profile));
-  }, []);
+  Api.get("/api/me", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+    .then((res) => {
+      console.log(res.data.user);
+      setProfile(res.data.user);
+    })
+    .catch((err) => {
+      console.log("Profile fetch error:", err);
+    });
+}, []);
+
 
   /* 🟢 online users */
  useEffect(() => {
@@ -263,15 +272,15 @@ const logout = async () => {
         <div className="bg-blue-500 p-4 flex gap-2">
           <img
             src={
-              Profile?.avatar
-                ? `http://localhost:8000/storage/${Profile.avatar}`
+              Profile?.profile?.avatar
+                ? `http://localhost:8000/storage/${Profile?.profile?.avatar}`
                 : userImg
             }
             className="w-10 h-10 rounded-full cursor-pointer"
             onClick={() => setOpenProfileModal(true)}
           />
           <p className="text-white text-xl">
-            Welcome, {authUser?.name}
+            Welcome, { Profile?.profile?.name || authUser?.name}
             <LogOutIcon onClick={logout} className="inline ml-2 cursor-pointer" />
           </p>
         </div>
